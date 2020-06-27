@@ -20,8 +20,8 @@
 <Project>
 
   <PropertyGroup>
-    <PreRelease Condition=" '$(PreRelease)' == '' ">false</PreRelease>
-    <DelaySign Condition=" '$(DelaySign)' == '' ">true</DelaySign>
+    <PreRelease Condition=" '$(PreRelease)' == '' ">true</PreRelease>
+    <DelaySign Condition=" '$(AssemblyOriginatorKeyFile)' == '' and '$(DelaySign)' == '' ">true</DelaySign>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile Condition=" '$(AssemblyOriginatorKeyFile)' == '' And '$(DelaySign)' == 'true' ">$(MSBuildThisFileDirectory)BigSolution.public.snk</AssemblyOriginatorKeyFile>
     <AssemblyOriginatorKeyFile Condition=" '$(AssemblyOriginatorKeyFile)' == '' And '$(DelaySign)' == 'false' ">C:\Files\Projects\.AssemblyOriginatorKeyFile\BigSolution.snk</AssemblyOriginatorKeyFile>
