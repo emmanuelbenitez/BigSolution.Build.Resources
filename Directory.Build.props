@@ -20,7 +20,6 @@
 <Project>
 
   <PropertyGroup>
-    <PreRelease Condition=" '$(PreRelease)' == '' ">true</PreRelease>
     <DelaySign Condition=" '$(AssemblyOriginatorKeyFile)' == '' and '$(DelaySign)' == '' ">true</DelaySign>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile Condition=" '$(AssemblyOriginatorKeyFile)' == '' And '$(DelaySign)' == 'true' ">$(MSBuildThisFileDirectory)BigSolution.public.snk</AssemblyOriginatorKeyFile>
@@ -30,20 +29,25 @@
     <Minor Condition=" '$(Minor)' == '' ">0</Minor>
     <Patch Condition=" '$(Patch)' == '' ">0</Patch>
     <Build Condition=" '$(Build)' == '' ">0</Build>
-    <Revision Condition=" '$(Revision)' == '' ">0</Revision>
-    <VersionSuffix Condition="'$(PreRelease)' == 'true'">preview$(Build).$(Revision)</VersionSuffix>
-
+    <VersionPrefix>$(Major).$(Minor).$(Patch)</VersionPrefix>
+    
     <!-- https://github.com/dotnet/sdk/issues/2 -->
     <AssemblyVersion>$(Major).$(Minor).0.0</AssemblyVersion>
     <Authors>Emmanuel Benitez</Authors>
     <Company>BigSolution</Company>
     <Copyright>Copyright © 2019 - $([System.DateTime]::Now.Year) BigSolution. All rights reserved.</Copyright>
-    <FileVersion>$(Major).$(Minor).$(Build).$(Revision)</FileVersion>
+    <FileVersion>$(VersionPrefix).$(Build)</FileVersion>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageVersion Condition=" '$(VersionSuffix)' == '' ">$(AssemblyVersion)</PackageVersion>
-    <PackageVersion Condition=" '$(VersionSuffix)' != '' ">$(AssemblyVersion)-$(VersionSuffix)</PackageVersion>
-    <Version>$(Major).$(Minor).$(Build).$(Revision)</Version>
+
+    <Product Condition="'$(TF_BUILD)' != 'true'">BigSolution Component (Local $(Configuration) Build)</Product>
+    <Product Condition="'$(TF_BUILD)' == 'true'">BigSolution Component ($(Configuration) Build)</Product>
+  </PropertyGroup>
+
+  <!-- https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml#system-variables -->
+  <PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
 
   <ItemGroup>
