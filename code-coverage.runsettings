@@ -31,9 +31,13 @@
 
             <!-- Match fully qualified names of functions: -->
             <!-- (Use "\." to delimit namespaces in C# or Visual Basic, "::" in C++.)  -->
-            <Exclude>
+            <!-- Match fully qualified names of functions: -->
+            <!-- (Use "\." to delimit namespaces in C# or Visual Basic, "::" in C++.)  -->
+            <Functions>
+              <Exclude>
                 <Function>^JetBrains.Annotations\..*</Function>
-            </Exclude>
+              </Exclude>
+            </Functions>
 
             <!-- Match the company name property in the assembly: -->
             <CompanyNames>
